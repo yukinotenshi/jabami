@@ -69,8 +69,6 @@ def execute(cmd):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        print(str(process.stdout))
-        print(str(process.stderr))
     except AttributeError:
         process = subprocess.Popen(
             command,
