@@ -4,6 +4,7 @@ import os
 
 from model import db, Video, VideoQuality, Quality, WaitingQueue
 from util import generate_random_string
+from background import cast_encoder
 
 
 app = Flask(__name__)
@@ -34,6 +35,16 @@ def json_error(msg, err_code=400):
 @app.route("/")
 def hello():
     return 'hello world~'
+
+
+@app.route('/video/<vid>', methods=['GET'])
+def get_video(vid):
+    video = Video.get_or_none(id=vid)
+
+    if video is None:
+        return json_error("Video not found", 404)
+
+    return jsonify(video.to_dict())
 
 
 @app.route('/video', methods=["POST"])
@@ -72,7 +83,7 @@ def put_video_in_queue():
     if video_queue is not None:
         return json_error("Already in queue")
 
-    video_queue = VideoQuality(video=video)
+    video_queue = WaitingQueue(video=video)
     video_queue.save()
 
     success = save_video_qualities(video, qualities)
@@ -101,4 +112,5 @@ def save_video_qualities(video, qualities):
 
 
 if __name__ == "__main__":
+    cast_encoder()
     app.run()

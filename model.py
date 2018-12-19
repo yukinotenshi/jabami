@@ -47,11 +47,20 @@ class VideoQuality(BaseModel):
     quality = pw.ForeignKeyField(Quality, backref="videos")
     video = pw.ForeignKeyField(Video, backref="qualities")
 
+    class Meta:
+        db_table = 'video_quality'
+
 
 class WaitingQueue(BaseModel):
     video = pw.ForeignKeyField(Video, backref="wait_queue", unique=True)
+
+    class Meta:
+        db_table = 'waiting_queue'
 
 
 class ProcessedVideo(BaseModel):
     video = pw.ForeignKeyField(Video, backref="processed")
     manifest = pw.CharField()
+
+    class Meta:
+        db_table = 'processed_video'
