@@ -7,7 +7,7 @@ from util import generate_random_string
 from background import cast_encoder
 
 
-app = Flask(__name__, static_folder='encoded')
+app = Flask(__name__, static_folder='encoded', static_url_path='/static')
 app.config['UPLOAD_DIR'] = "./upload"
 
 
